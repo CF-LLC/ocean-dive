@@ -29,7 +29,7 @@ export default function App() {
     if (localStorage.getItem('od-lite') === null) setLite(matchMedia('(pointer:coarse)').matches || (navigator.deviceMemory || 8) <= 4);
     if (localStorage.getItem('od-reduced') === null && matchMedia('(prefers-reduced-motion: reduce)').matches) setReduced(true);
     const start = () => setGo(true);
-    const t = setTimeout(start, 1800);
+    const t = setTimeout(start, 4500);
     addEventListener('scroll', start, { once: true, passive: true });
     addEventListener('pointerdown', start, { once: true });
     return () => clearTimeout(t);
