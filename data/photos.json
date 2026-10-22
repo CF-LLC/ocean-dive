@@ -1,0 +1,90 @@
+{
+ "dolphin": {
+  "file": "dolphin.webp",
+  "title": "Common Bottlenose Dolphin (Tursiops truncatus) Catalina jumping.jpg",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "artist": "Kiloueka",
+  "source": "https://commons.wikimedia.org/wiki/File:Common_Bottlenose_Dolphin_(Tursiops_truncatus)_Catalina_jumping.jpg"
+ },
+ "sunfish": {
+  "file": "sunfish.webp",
+  "title": "Ocean sunfish \u2022 common mola (Mola mola), Lisbon Oceanarium.jpg",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "artist": "Sonse",
+  "source": "https://commons.wikimedia.org/wiki/File:Ocean_sunfish_%E2%80%A2_common_mola_(Mola_mola),_Lisbon_Oceanarium.jpg"
+ },
+ "turtle": {
+  "file": "turtle.webp",
+  "title": "Green Turtle Chelonia Mydas (223128015).jpeg",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "artist": "Kris Mikael Krister",
+  "source": "https://commons.wikimedia.org/wiki/File:Green_Turtle_Chelonia_Mydas_(223128015).jpeg"
+ },
+ "kelp": {
+  "file": "kelp.webp",
+  "title": "Macrocystis pyrifera sporophyte at Fortescue Bay in summer 2021 .Fig7C Layton.png",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "artist": "Cayne Layton, Craig R. Johnson",
+  "source": "https://commons.wikimedia.org/wiki/File:Macrocystis_pyrifera_sporophyte_at_Fortescue_Bay_in_summer_2021_.Fig7C_Layton.png"
+ },
+ "moonjelly": {
+  "file": "jelly.webp",
+  "title": "Aurelia-aurita-3.jpg",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "artist": "MartinThoma",
+  "source": "https://commons.wikimedia.org/wiki/File:Aurelia-aurita-3.jpg"
+ },
+ "swordfish": {
+  "file": "swordfish.webp",
+  "title": "Xiphias gladius in the sea.jpg",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "artist": "sylvain_eichhorn",
+  "source": "https://commons.wikimedia.org/wiki/File:Xiphias_gladius_in_the_sea.jpg"
+ },
+ "lantern": {
+  "file": "lantern.webp",
+  "title": "Fresh Benthosema glaciale.jpg",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "artist": "HulloThere",
+  "source": "https://commons.wikimedia.org/wiki/File:Fresh_Benthosema_glaciale.jpg"
+ },
+ "goblin": {
+  "file": "goblin.webp",
+  "title": "Mitsukurina owstoni Fishes of Australia.jpg",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "artist": "Dianne J. Bray / Museum Victoria",
+  "source": "https://commons.wikimedia.org/wiki/File:Mitsukurina_owstoni_Fishes_of_Australia.jpg"
+ },
+ "atolla": {
+  "file": "atolla.webp",
+  "title": "Atolla (YPM IZ 038668).jpeg",
+  "license": "CC0",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "artist": "Eric A. Lazo-Wasem",
+  "source": "https://commons.wikimedia.org/wiki/File:Atolla_(YPM_IZ_038668).jpeg"
+ },
+ "angler": {
+  "file": "angler.webp",
+  "title": "Ceratioidea from Northeastern Brazil.jpg",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "artist": "Michael Maia Mincarone",
+  "source": "https://commons.wikimedia.org/wiki/File:Ceratioidea_from_Northeastern_Brazil.jpg"
+ },
+ "squid": {
+  "file": "squid.webp",
+  "title": "Architeuthis dux 68146399.jpg",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "artist": "Auckland War Memorial Museum",
+  "source": "https://commons.wikimedia.org/wiki/File:Architeuthis_dux_68146399.jpg"
+ }
+}
