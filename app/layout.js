@@ -1,8 +1,8 @@
 import './globals.css';
-const desc = 'Scroll from the sunlit surface to the sea floor in an interactive 3D ocean. Tap creatures for photos and fun facts.';
+const desc = 'A real-scale dive from the surface to Challenger Deep (10,935 m). Live depth, pressure and temperature, a flashlight in the dark, and 30 creatures to find.';
 export const metadata = {
   metadataBase: new URL('https://cf-llc.github.io'),
-  title: 'Ocean Dive · an interactive 3D dive to the sea floor',
+  title: 'Ocean Dive · a real-scale dive to 10,935 m',
   description: desc,
   openGraph: { title: 'Ocean Dive', description: desc, url: 'https://cf-llc.github.io/ocean-dive/', siteName: 'Ocean Dive by CF LLC', type: 'website',
     images: [{ url: '/ocean-dive/og.jpg', width: 1200, height: 630, alt: 'Ocean Dive: a 3D ocean from surface to sea floor' }] },
