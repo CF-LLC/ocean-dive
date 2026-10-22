@@ -10,6 +10,4 @@ export const MODELS = [
   { file: 'angler.glb', name: 'Anglerfish', author: 'Quaternius', license: 'CC0 1.0 (Public Domain)', source: 'https://poly.pizza/m/MRjSlwCjHM' },
   { file: 'squid.glb', name: 'Giant Squid', author: 'S. Paul Michael', license: 'CC BY 3.0', source: 'https://poly.pizza/m/09Uxw60zbm_' },
 ];
-export const AUDIO = [
-  { file: 'ambient.mp3', name: 'Ocean Waves on a Tropical Beach (excerpt, low-pass filtered to sound underwater)', author: 'Jarrod Stanley', license: 'CC0 1.0', source: 'https://commons.wikimedia.org/wiki/File:Ocean_Waves_on_a_Tropical_Beach.ogg' },
-];
+export const AUDIO = []; // all sound is synthesized live with WebAudio (components/sound.js)

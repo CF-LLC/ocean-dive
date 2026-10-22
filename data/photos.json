@@ -86,5 +86,109 @@
   "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
   "artist": "Auckland War Memorial Museum",
   "source": "https://commons.wikimedia.org/wiki/File:Architeuthis_dux_68146399.jpg"
+ },
+ "barreleye": {
+  "file": "barreleye.webp",
+  "title": "Macropinna microstoma illustration.png",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "artist": "J. Hlidberg, K. and E. Hj\u00f8rne (from Poulsen et al. 2016)",
+  "source": "https://commons.wikimedia.org/wiki/File:Macropinna_microstoma_illustration.png"
+ },
+ "vampire": {
+  "file": "vampire.webp",
+  "title": "Vampyroteuthis illustration.jpg",
+  "license": "Public domain",
+  "licenseUrl": null,
+  "artist": "Carl Chun (1910 illustration)",
+  "source": "https://commons.wikimedia.org/wiki/File:Vampyroteuthis_illustration.jpg"
+ },
+ "gulper": {
+  "file": "gulper.webp",
+  "title": "Eurypharynx pelecanoides.jpg",
+  "license": "Public domain",
+  "licenseUrl": null,
+  "artist": "Unknown (historic)",
+  "source": "https://commons.wikimedia.org/wiki/File:Eurypharynx_pelecanoides.jpg"
+ },
+ "snailfish": {
+  "file": "snailfish.webp",
+  "title": "Pseudoliparis swirei.png",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "artist": "Gerringer, Linley, Jamieson, Goetze & Drazen (2017)",
+  "source": "https://commons.wikimedia.org/wiki/File:Pseudoliparis_swirei.png"
+ },
+ "spidercrab": {
+  "file": "spidercrab.webp",
+  "title": "Macrocheira kaempferi.jpg",
+  "license": "CC BY 2.5",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+  "artist": "Hans Hillewaert (Lycaon); derived from image by Michael Wolf",
+  "source": "https://commons.wikimedia.org/wiki/File:Macrocheira_kaempferi.jpg"
+ },
+ "dumbo": {
+  "file": "dumbo.webp",
+  "title": "Dumbo-hires (cropped).jpg",
+  "license": "Public domain",
+  "licenseUrl": null,
+  "artist": "NOAA Okeanos Explorer",
+  "source": "https://commons.wikimedia.org/wiki/File:Dumbo-hires_(cropped).jpg"
+ },
+ "frilled": {
+  "file": "frilled.webp",
+  "title": "Chlamydoselachus anguineus1.jpg",
+  "license": "Public domain",
+  "licenseUrl": null,
+  "artist": "Robert Mintern (HMS Challenger report plate)",
+  "source": "https://commons.wikimedia.org/wiki/File:Chlamydoselachus_anguineus1.jpg"
+ },
+ "blobfish": {
+  "file": "blobfish.webp",
+  "title": "Psychrolutes marcidus.jpg",
+  "license": "Public domain",
+  "licenseUrl": null,
+  "artist": "Alan Riverstone McCulloch (1885\u20131925)",
+  "source": "https://commons.wikimedia.org/wiki/File:Psychrolutes_marcidus.jpg"
+ },
+ "seapig": {
+  "file": "seapig.webp",
+  "title": "Scotoplanes globosa1.jpg",
+  "license": "Public domain",
+  "licenseUrl": null,
+  "artist": "Lindberg (HMS Challenger report)",
+  "source": "https://commons.wikimedia.org/wiki/File:Scotoplanes_globosa1.jpg"
+ },
+ "greenland": {
+  "file": "greenland.webp",
+  "title": "Somniosus microcephalus okeanos.jpg",
+  "license": "Public domain",
+  "licenseUrl": null,
+  "artist": "NOAA Okeanos Explorer Program",
+  "source": "https://commons.wikimedia.org/wiki/File:Somniosus_microcephalus_okeanos.jpg"
+ },
+ "siphonophore": {
+  "file": "siphonophore.webp",
+  "title": "Photographs of living siphonophores.jpg",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+  "artist": "C. Munro, S. Siebert, F. Zapata et al. (2018)",
+  "source": "https://commons.wikimedia.org/wiki/File:Photographs_of_living_siphonophores.jpg"
+ },
+ "cookiecutter": {
+  "file": "cookiecutter.webp",
+  "title": "Isistius brasiliensis.jpg",
+  "license": "Public domain",
+  "licenseUrl": null,
+  "artist": "NOAA Observer Project",
+  "source": "https://commons.wikimedia.org/wiki/File:Isistius_brasiliensis.jpg"
+ },
+ "firefly": {
+  "file": "firefly.webp",
+  "title": "Watasenia scintillans.jpg",
+  "license": "Public domain",
+  "licenseUrl": null,
+  "artist": "Dieno (ja.wikipedia)",
+  "source": "https://commons.wikimedia.org/wiki/File:Watasenia_scintillans.jpg"
  }
 }

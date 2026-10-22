@@ -4,13 +4,16 @@ import { useGLTF } from '@react-three/drei';
 import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { clone as skClone } from 'three/examples/jsm/utils/SkeletonUtils.js';
-import { CREATURES, BANDS, FLOOR_Y } from '../data/creatures';
+import { CREATURES } from '../data/creatures';
+import { screensAt } from '../data/dive';
 import { BASE } from '../data/site';
 
 const DRACO = `${BASE}/draco/`;
-const BAND_Y = Object.fromEntries(BANDS.map((b) => [b.id, b.y]));
+const K = 6; // world units per scroll screen
+const Y = (d) => -screensAt(d) * K;
+const FLOOR_Y = -12 * K; // 1,000 m: the 3D layer hands off to the dark 2D deep below this
 const STOPS = [
-  [0, '#4fb6dd'], [-12, '#2b8fbf'], [-28, '#1a6f8f'], [-46, '#0e4a72'], [-66, '#072a47'], [-88, '#020c1a'], [FLOOR_Y, '#01050b'],
+  [0, '#4fb6dd'], [-8, '#2b8fbf'], [-24, '#1a6f8f'], [-40, '#0e4a72'], [-56, '#072a47'], [-68, '#020c1a'], [FLOOR_Y - 6, '#01050b'],
 ].map(([y, c]) => [y, new THREE.Color(c)]);
 function colorAt(y) {
   for (let i = 0; i < STOPS.length - 1; i++) {
@@ -19,39 +22,11 @@ function colorAt(y) {
   }
   return STOPS[STOPS.length - 1][1].clone();
 }
-
-// scroll → camera y, anchored to the DOM sections (data-y)
-let anchors = [];
-function measure() {
-  const els = [...document.querySelectorAll('[data-y]')];
-  anchors = els.map((el) => {
-    const r = el.getBoundingClientRect();
-    return [r.top + scrollY + r.height / 2 - innerHeight / 2, parseFloat(el.dataset.y)];
-  });
-  anchors.unshift([0, 0]);
-  anchors.sort((a, b) => a[0] - b[0]);
-}
-function targetY() {
-  const s = scrollY;
-  if (!anchors.length) return 0;
-  if (s <= anchors[0][0]) return anchors[0][1];
-  for (let i = 0; i < anchors.length - 1; i++) {
-    const [s0, y0] = anchors[i], [s1, y1] = anchors[i + 1];
-    if (s <= s1) return y0 + (y1 - y0) * ((s - s0) / Math.max(1, s1 - s0));
-  }
-  return anchors[anchors.length - 1][1];
-}
+const targetY = () => -Math.max(0, (typeof window !== 'undefined' && window.__odS) || 0) * K;
 
 function Rig({ reduced }) {
   const { camera, scene, size } = useThree();
   const amb = useRef(), dir = useRef(), torch = useRef();
-  useEffect(() => {
-    
-    measure();
-    const ro = new ResizeObserver(measure); ro.observe(document.body);
-    addEventListener('resize', measure);
-    return () => { ro.disconnect(); removeEventListener('resize', measure); };
-  }, []);
   useFrame((s, dt) => {
     const ty = targetY();
     const k = reduced ? 1 : 1 - Math.pow(0.02, dt);
@@ -74,7 +49,7 @@ function Rig({ reduced }) {
 // mount children only once the camera gets near (lazy-loads the GLBs as you dive)
 function Gate({ y, children }) {
   const [on, setOn] = useState(false);
-  useFrame(({ camera }) => { if (!on && Math.abs(camera.position.y - y) < 32) setOn(true); });
+  useFrame(({ camera }) => { if (!on && Math.abs(camera.position.y - y) < 26) setOn(true); });
   return on ? <Suspense fallback={null}>{children}</Suspense> : null;
 }
 
@@ -115,7 +90,7 @@ function Creature({ c, reduced, onPick, lite, idx = 0, total = 1 }) {
       if (!m.isMesh) return;
       m.frustumCulled = false;
       m.material.side = THREE.DoubleSide;
-      if (!c.glow && !c.jelly && m.material.color) { m.material.emissive = m.material.color.clone().multiplyScalar(BAND_Y[c.band] < -80 ? 0.6 : BAND_Y[c.band] < -55 ? 0.45 : 0.25); }
+      if (!c.glow && !c.jelly && m.material.color) { m.material.emissive = m.material.color.clone().multiplyScalar(c.depth > 700 ? 0.6 : c.depth > 300 ? 0.45 : 0.25); }
       m.material = m.material.clone();
       if (c.glow) { m.material.emissive = new THREE.Color(c.color); m.material.emissiveIntensity = 1.2; }
       if (c.jelly) { m.material.transparent = true; m.material.opacity = 0.75; m.material.emissive = new THREE.Color(c.color); m.material.emissiveIntensity = c.glow ? 0.9 : 0.35; }
@@ -126,7 +101,7 @@ function Creature({ c, reduced, onPick, lite, idx = 0, total = 1 }) {
   const seed = useMemo(() => Math.random() * 100, []);
   const [hover, setHover] = useState(false);
   useEffect(() => { document.body.style.cursor = hover ? 'pointer' : ''; }, [hover]);
-  const baseY = BAND_Y[c.band] + c.dy + (total > 1 ? (idx % 3 - 1) * 0.9 : 0);
+  const baseY = Y(c.depth) + (total > 1 ? (idx % 3 - 1) * 0.9 : 0);
   const dirSign = c.x > 0 ? -1 : 1;
   useFrame((s) => {
     const t = s.clock.elapsedTime * (reduced ? 0.25 : 1) + seed;
@@ -165,7 +140,7 @@ function KelpForest({ lite }) {
   useFrame((s) => ref.current.children.forEach((m, i) => (m.rotation.z = Math.sin(s.clock.elapsedTime * 0.6 + items[i].r) * 0.06)));
   return (
     <group ref={ref}>
-      {items.map((it, i) => (<group key={i} position={[it.x, BAND_Y.kelp - 4, it.z]}><Normalized obj={objs[i]} size={it.h} /></group>))}
+      {items.map((it, i) => (<group key={i} position={[it.x, Y(25) - 5, it.z]}><Normalized obj={objs[i]} size={it.h} /></group>))}
     </group>
   );
 }
@@ -190,7 +165,7 @@ function Particles({ count, reduced }) {
   const ref = useRef();
   const geo = useMemo(() => {
     const a = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) { a[i * 3] = (Math.random() - 0.5) * 26; a[i * 3 + 1] = -Math.random() * -FLOOR_Y; a[i * 3 + 2] = (Math.random() - 0.5) * 14 - 2; }
+    for (let i = 0; i < count; i++) { a[i * 3] = (Math.random() - 0.5) * 26; a[i * 3 + 1] = -Math.random() * (-FLOOR_Y + 8); a[i * 3 + 2] = (Math.random() - 0.5) * 14 - 2; }
     const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(a, 3)); return g;
   }, [count]);
   useFrame((_, dt) => { if (!reduced) { ref.current.position.y -= dt * 0.25; if (ref.current.position.y < -8) ref.current.position.y = 0; } });
@@ -203,7 +178,7 @@ function Biolum({ count, reduced }) {
     const a = new Float32Array(count * 3), c = new Float32Array(count * 3);
     const pal = ['#2bf5c6', '#4ea8ff', '#b47cff'].map((x) => new THREE.Color(x));
     for (let i = 0; i < count; i++) {
-      a[i * 3] = (Math.random() - 0.5) * 22; a[i * 3 + 1] = -60 - Math.random() * 46; a[i * 3 + 2] = (Math.random() - 0.5) * 12 - 2;
+      a[i * 3] = (Math.random() - 0.5) * 22; a[i * 3 + 1] = -34 - Math.random() * 46; a[i * 3 + 2] = (Math.random() - 0.5) * 12 - 2;
       const p = pal[i % 3]; c[i * 3] = p.r; c[i * 3 + 1] = p.g; c[i * 3 + 2] = p.b;
     }
     const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(a, 3)); g.setAttribute('color', new THREE.BufferAttribute(c, 3)); return g;
@@ -212,40 +187,29 @@ function Biolum({ count, reduced }) {
   return <points ref={ref} geometry={geo}><pointsMaterial size={0.16} vertexColors transparent blending={THREE.AdditiveBlending} depthWrite={false} fog={false} /></points>;
 }
 
-function Floor() {
-  const rocks = useMemo(() => Array.from({ length: 14 }, () => [(Math.random() - 0.5) * 24, FLOOR_Y + 0.3, -Math.random() * 12, 0.4 + Math.random() * 1.4]), []);
-  return (
-    <group>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, FLOOR_Y, -4]}><planeGeometry args={[80, 40]} /><meshStandardMaterial color="#6b6658" roughness={1} /></mesh>
-      {rocks.map(([x, y, z, s], i) => (<mesh key={i} position={[x, y, z]} scale={s}><dodecahedronGeometry args={[1, 0]} /><meshStandardMaterial color="#4a4a52" flatShading /></mesh>))}
-    </group>
-  );
-}
-
 function Surface() {
   return <mesh position={[0, 3, 0]} rotation={[Math.PI / 2, 0, 0]}><planeGeometry args={[80, 60]} /><meshBasicMaterial color="#d6f3ff" transparent opacity={0.3} side={THREE.DoubleSide} depthWrite={false} /></mesh>;
 }
 
 export default function Ocean({ lite, reduced, onPick }) {
-  const groups = BANDS.map((b) => ({ b, cs: CREATURES.filter((c) => c.band === b.id) }));
+  const cs = CREATURES.filter((c) => c.model);
   return (
-    <Canvas dpr={lite ? 1 : [1, 1.75]} camera={{ position: [0, 0, 10], fov: 60, near: 0.1, far: 80 }}
+    <Canvas dpr={lite ? 1 : [1, 1.5]} camera={{ position: [0, 0, 10], fov: 60, near: 0.1, far: 80 }}
       gl={{ antialias: !lite, powerPreference: lite ? 'low-power' : 'high-performance' }} frameloop="always">
       <fog attach="fog" args={['#4fb6dd', 3, 34]} />
       <Rig reduced={reduced} />
       <Surface />
       {!lite && <GodRays reduced={reduced} />}
-      <Particles count={lite ? 350 : 1200} reduced={reduced} />
-      <Biolum count={lite ? 120 : 400} reduced={reduced} />
-      <Gate y={BAND_Y.kelp}><KelpForest lite={lite} /></Gate>
-      {groups.map(({ b, cs }) => (
-        <Gate key={b.id} y={b.y}>
-          {cs.map((c) => (c.school
+      <Particles count={lite ? 300 : 1000} reduced={reduced} />
+      <Biolum count={lite ? 120 : 360} reduced={reduced} />
+      <Gate y={Y(25)}><KelpForest lite={lite} /></Gate>
+      {cs.map((c) => (
+        <Gate key={c.id} y={Y(c.depth)}>
+          {c.school
             ? Array.from({ length: lite ? Math.ceil(c.school / 2) : c.school }, (_, i) => <Creature key={c.id + i} c={c} idx={i} total={lite ? Math.ceil(c.school / 2) : c.school} reduced={reduced} lite={lite} onPick={onPick} />)
-            : <Creature key={c.id} c={c} reduced={reduced} lite={lite} onPick={onPick} />))}
+            : <Creature c={c} reduced={reduced} lite={lite} onPick={onPick} />}
         </Gate>
       ))}
-      <Gate y={FLOOR_Y}><Floor /></Gate>
     </Canvas>
   );
 }
