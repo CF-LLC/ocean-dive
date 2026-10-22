@@ -4,6 +4,9 @@ body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#eaf
 a{color:#9fdcff}button{font:inherit;cursor:pointer}
 .sea{position:fixed;inset:0;background:var(--sea);z-index:0}
 .bg{position:fixed;inset:0;z-index:0;opacity:calc(1 - var(--dark))}
+.poster{position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity .8s ease}.poster img{width:100%;height:100%;object-fit:cover;display:block}
+.poster.off{opacity:0}.reduced .poster{transition:none}
+@media(prefers-reduced-motion:reduce){.poster{transition:none}}
 .dark{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:var(--dark);
 background:radial-gradient(circle at var(--tx) var(--ty),rgba(0,2,6,0) 0,rgba(0,2,6,0) calc(9vmin + 40px),rgba(0,2,6,.75) calc(16vmin + 70px),rgba(0,2,6,.985) calc(24vmin + 110px))}
 .isdeep{cursor:none}.isdeep button,.isdeep a{cursor:pointer}

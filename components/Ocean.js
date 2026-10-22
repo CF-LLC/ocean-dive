@@ -191,13 +191,21 @@ function Surface() {
   return <mesh position={[0, 3, 0]} rotation={[Math.PI / 2, 0, 0]}><planeGeometry args={[80, 60]} /><meshBasicMaterial color="#d6f3ff" transparent opacity={0.3} side={THREE.DoubleSide} depthWrite={false} /></mesh>;
 }
 
-export default function Ocean({ lite, reduced, onPick }) {
+// tell the page once real frames are on screen, so the poster can fade out
+function Ready({ onReady }) {
+  const n = useRef(0);
+  useFrame(() => { if (++n.current === 3 && onReady) onReady(); });
+  return null;
+}
+
+export default function Ocean({ lite, reduced, onPick, onReady }) {
   const cs = CREATURES.filter((c) => c.model);
   return (
     <Canvas dpr={lite ? 1 : [1, 1.5]} camera={{ position: [0, 0, 10], fov: 60, near: 0.1, far: 80 }}
       gl={{ antialias: !lite, powerPreference: lite ? 'low-power' : 'high-performance' }} frameloop="always">
       <fog attach="fog" args={['#4fb6dd', 3, 34]} />
       <Rig reduced={reduced} />
+      <Ready onReady={onReady} />
       <Surface />
       {!lite && <GodRays reduced={reduced} />}
       <Particles count={lite ? 300 : 1000} reduced={reduced} />
