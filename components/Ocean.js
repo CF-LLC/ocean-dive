@@ -13,7 +13,7 @@ const K = 6; // world units per scroll screen
 const Y = (d) => -screensAt(d) * K;
 const FLOOR_Y = -12 * K; // 1,000 m: the 3D layer hands off to the dark 2D deep below this
 const STOPS = [
-  [0, '#4fb6dd'], [-8, '#2b8fbf'], [-24, '#1a6f8f'], [-40, '#0e4a72'], [-56, '#072a47'], [-68, '#020c1a'], [FLOOR_Y - 6, '#01050b'],
+  [0, '#4fb6dd'], [-8, '#2b8fbf'], [-24, '#1a6f8f'], [-40, '#0e4a72'], [-56, '#0c3d66'], [-68, '#0b2f5c'], [FLOOR_Y - 6, '#0a2a58'],
 ].map(([y, c]) => [y, new THREE.Color(c)]);
 function colorAt(y) {
   for (let i = 0; i < STOPS.length - 1; i++) {

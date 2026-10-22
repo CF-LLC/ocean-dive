@@ -8,6 +8,7 @@ import { ART } from './Art';
 import { BASE, CF_URL, SITE_URL } from '../data/site';
 import { drawCard, fmtM } from './card';
 
+const Ambience = dynamic(() => import('./Ambience'), { ssr: false });
 const Ocean = dynamic(() => import('./Ocean'), { ssr: false });
 const byId = Object.fromEntries(CREATURES.map((c) => [c.id, c]));
 const SORTED = [...CREATURES].sort((a, b) => a.depth - b.depth);
@@ -15,13 +16,13 @@ const DEEP = CREATURES.filter((c) => c.art);
 const SHALLOW3D = CREATURES.filter((c) => c.model);
 const LOG_KEY = 'od-log-v2';
 const emptyLog = () => ({ found: {}, badges: {}, max: 0, torch: 0, best: null });
-const SEA = [[0, [79, 182, 221]], [60, [43, 143, 191]], [200, [14, 74, 114]], [600, [7, 42, 71]], [1000, [2, 10, 22]], [4000, [1, 4, 9]], [MAX_DEPTH, [0, 1, 3]]];
+const SEA = [[0, [79, 182, 221]], [60, [43, 143, 191]], [200, [14, 74, 114]], [600, [7, 42, 71]], [1000, [10, 42, 88]], [2500, [18, 40, 112]], [4000, [30, 30, 110]], [7000, [46, 22, 104]], [MAX_DEPTH, [34, 16, 84]]];
 function seaColor(d) {
   for (let i = 1; i < SEA.length; i++) {
     const [d0, a] = SEA[i - 1], [d1, b] = SEA[i];
     if (d <= d1) { const t = (d - d0) / (d1 - d0); return `rgb(${a.map((v, k) => Math.round(v + (b[k] - v) * t)).join(',')})`; }
   }
-  return 'rgb(0,1,3)';
+  return 'rgb(22,10,56)';
 }
 const fmtTime = (ms) => { const s = Math.round(ms / 1000); return `${Math.floor(s / 60)}m${String(s % 60).padStart(2, '0')}s`; };
 const top = (d) => `calc(${screensAt(d).toFixed(4)} * 100svh)`;
@@ -40,6 +41,8 @@ export default function App() {
   const [started, setStarted] = useState(false); // 3D boots on the first user interaction
   const [ready3d, setReady3d] = useState(false); // first 3D frame painted → poster fades out
   const [posterGone, setPosterGone] = useState(false);
+  const [ambOn, setAmbOn] = useState(false);
+  useEffect(() => { const go = () => setAmbOn(true); const id = window.requestIdleCallback ? requestIdleCallback(go, { timeout: 2500 }) : setTimeout(go, 1200); const ev = ['scroll', 'touchstart', 'pointerdown', 'keydown']; ev.forEach((e) => addEventListener(e, go, { once: true, passive: true })); return () => ev.forEach((e) => removeEventListener(e, go)); }, []);
   const [sound, setSound] = useState(false);
   const [sel, setSel] = useState(null);
   const [toast, setToast] = useState('');
@@ -124,7 +127,8 @@ export default function App() {
         h.z.textContent = zoneAt(d).name;
         h.bar.style.transform = `scaleY(${d / MAX_DEPTH})`;
       }
-      root.style.setProperty('--sea', seaColor(d));
+      root.style.setProperty('--sea', seaColor(d)); window.__odD = d;
+      root.style.setProperty('--ray', Math.max(0, 1 - d / 260).toFixed(3)); root.style.setProperty('--glow', Math.min(1, Math.max(0, (d - 150) / 600)).toFixed(3));
       const dark = Math.max(0, Math.min(1, (d - 850) / 250));
       root.style.setProperty('--dark', dark.toFixed(3));
       root.classList.toggle('isdeep', dark > 0.5);
@@ -237,6 +241,7 @@ export default function App() {
   return (
     <main>
       <div className="sea" aria-hidden="true" />
+      <div className="glows" aria-hidden="true" /><div className="rays" aria-hidden="true" />
       <div className="bg" aria-hidden="true">
         {started && show3d && <Ocean lite={lite} reduced={reduced} onPick={open} onReady={on3dReady} />}
         {!posterGone && (
@@ -247,6 +252,7 @@ export default function App() {
         )}
       </div>
       <div className="dark" aria-hidden="true" />
+      {ambOn && <Ambience reduced={reduced} />}
 
       <aside className="hud" aria-label="Dive computer">
         <div className="hud-bar"><i ref={(e) => (hud.current.bar = e)} /></div>
