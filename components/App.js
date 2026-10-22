@@ -202,10 +202,10 @@ export default function App() {
   const timeStr = finish ? fmtTime(finish) : null;
   const shareText = `🌊 I dove ${fmtM(maxD)} m in Ocean Dive and found ${nFound}/${TOTAL} creatures${timeStr ? ` in ${timeStr}` : ''}. 🔦 How deep can you go?`;
   const makeCard = useCallback(async () => {
-    const blob = await drawCard({ depth: maxD, found: nFound, total: TOTAL, time: timeStr, zone: zoneAt(Math.max(0, maxD - 1)).name });
+    const blob = await drawCard({ depth: maxD, found: nFound, total: TOTAL, time: timeStr, zone: zoneAt(Math.max(0, maxD - 1)).name, badges: BADGES.filter((b) => log.badges[b.id]) });
     setCard((old) => { if (old) URL.revokeObjectURL(old.url); return { blob, url: URL.createObjectURL(blob) }; });
     return blob;
-  }, [maxD, nFound, timeStr]);
+  }, [maxD, nFound, timeStr, log.badges]);
   const resultRef = useRef(null);
   useEffect(() => {
     const el = resultRef.current; if (!el) return;
