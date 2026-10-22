@@ -36,7 +36,10 @@ function useStoredBool(key, init) {
 export default function App() {
   const [lite, setLite] = useStoredBool('od-lite', false);
   const [reduced, setReduced] = useStoredBool('od-reduced', false);
-  const [show3d, setShow3d] = useState(false);
+  const [show3d, setShow3d] = useState(true); // false only while deep below the 3D layer
+  const [started, setStarted] = useState(false); // 3D boots on the first user interaction
+  const [ready3d, setReady3d] = useState(false); // first 3D frame painted → poster fades out
+  const [posterGone, setPosterGone] = useState(false);
   const [sound, setSound] = useState(false);
   const [sel, setSel] = useState(null);
   const [toast, setToast] = useState('');
@@ -82,9 +85,23 @@ export default function App() {
     if (localStorage.getItem('od-reduced') === null && matchMedia('(prefers-reduced-motion: reduce)').matches) setReduced(true);
     try { const s = JSON.parse(localStorage.getItem(LOG_KEY)); if (s && s.found) setLog({ ...emptyLog(), ...s }); } catch {}
     st.current.scared = sessionStorage.getItem('od-scared') === '1';
-    setShow3d(true); // the 3D layer mounts right after hydration; the hero is already real HTML
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // lazy 3D: the poster + HTML hero stand in until the visitor first interacts
+  useEffect(() => {
+    const evs = ['scroll', 'pointerdown', 'touchstart', 'keydown', 'wheel'];
+    const go = () => { evs.forEach((e) => removeEventListener(e, go)); setStarted(true); };
+    evs.forEach((e) => addEventListener(e, go, { passive: true }));
+    if (scrollY > 0) go(); // restored scroll position (reload mid-dive)
+    return () => evs.forEach((e) => removeEventListener(e, go));
+  }, []);
+  useEffect(() => {
+    if (!ready3d || posterGone) return;
+    const t = setTimeout(() => setPosterGone(true), reduced ? 0 : 900);
+    return () => clearTimeout(t);
+  }, [ready3d, posterGone, reduced]);
+  const on3dReady = useCallback(() => setReady3d(true), []);
   useEffect(() => { document.documentElement.classList.toggle('reduced', reduced); }, [reduced]);
 
   // scroll → depth, HUD, darkness, events
@@ -220,7 +237,15 @@ export default function App() {
   return (
     <main>
       <div className="sea" aria-hidden="true" />
-      <div className="bg" aria-hidden="true">{show3d && <Ocean lite={lite} reduced={reduced} onPick={open} />}</div>
+      <div className="bg" aria-hidden="true">
+        {started && show3d && <Ocean lite={lite} reduced={reduced} onPick={open} onReady={on3dReady} />}
+        {!posterGone && (
+          <picture className={`poster ${ready3d ? 'off' : ''}`}>
+            <source media="(max-aspect-ratio: 3/4)" srcSet={`${BASE}/poster-m.webp`} />
+            <img src={`${BASE}/poster-d.webp`} alt="" width="1600" height="1000" fetchPriority="high" decoding="async" />
+          </picture>
+        )}
+      </div>
       <div className="dark" aria-hidden="true" />
 
       <aside className="hud" aria-label="Dive computer">

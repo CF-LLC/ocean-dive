@@ -1,12 +1,16 @@
 import './globals.css';
+const SITE = 'https://cf-llc.github.io/ocean-dive/';
+const OG = 'https://cf-llc.github.io/ocean-dive/og-v2.png';
+const TITLE = 'Ocean Dive · a real-scale dive to 10,935 m';
 const desc = 'A real-scale dive from the surface to Challenger Deep (10,935 m). Live depth, pressure and temperature, a flashlight in the dark, and 30 creatures to find.';
 export const metadata = {
   metadataBase: new URL('https://cf-llc.github.io'),
-  title: 'Ocean Dive · a real-scale dive to 10,935 m',
+  title: TITLE,
   description: desc,
-  openGraph: { title: 'Ocean Dive', description: desc, url: 'https://cf-llc.github.io/ocean-dive/', siteName: 'Ocean Dive by CF LLC', type: 'website',
-    images: [{ url: '/ocean-dive/og.jpg', width: 1200, height: 630, alt: 'Ocean Dive: a 3D ocean from surface to sea floor' }] },
-  twitter: { card: 'summary_large_image', title: 'Ocean Dive', description: desc, images: ['/ocean-dive/og.jpg'] },
+  alternates: { canonical: SITE },
+  openGraph: { title: TITLE, description: desc, url: SITE, siteName: 'Ocean Dive by CF LLC', type: 'website',
+    images: [{ url: OG, width: 1200, height: 630, alt: 'Ocean Dive: a real-scale dive from sunlit kelp to Challenger Deep at 10,935 m' }] },
+  twitter: { card: 'summary_large_image', title: TITLE, description: desc, images: [{ url: OG, alt: 'Ocean Dive: a real-scale dive to 10,935 m' }] },
 };
 export const viewport = { width: 'device-width', initialScale: 1, themeColor: '#0e4a72' };
 export default function RootLayout({ children }) {
