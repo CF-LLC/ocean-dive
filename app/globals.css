@@ -1,0 +1,14 @@
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#eaf6ff;background:linear-gradient(#3fa9d6 0%,#1f7a8c 20%,#0f4c75 45%,#0a2a4a 70%,#030a18 90%,#010308 100%)}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+main>*:not(.bg){position:relative;z-index:1}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem}
+.hero h1{font-size:clamp(2.6rem,10vw,6rem);margin:0;letter-spacing:-.02em;text-shadow:0 4px 30px rgba(0,0,0,.35)}
+.hero p{font-size:1.15rem;max-width:32rem}
+.cue{font-size:2rem;animation:b 1.6s infinite}@keyframes b{50%{transform:translateY(10px)}}
+.zone{min-height:110vh;display:flex;align-items:center;padding:2rem}
+.zone:nth-child(odd) {justify-content:flex-end}
+.card{max-width:26rem;background:rgba(2,16,32,.55);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:1.4rem 1.6rem}
+.card h2{margin:.2rem 0 .6rem}.depth{font-variant-numeric:tabular-nums;opacity:.8;font-size:.9rem;letter-spacing:.1em}
+.foot{padding:4rem 2rem;text-align:center}.foot a{color:#8fd3ff}.small{font-size:.8rem;opacity:.7}
+@media (prefers-reduced-motion:reduce){.cue{animation:none}}
